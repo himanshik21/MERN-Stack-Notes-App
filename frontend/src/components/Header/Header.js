@@ -1,11 +1,17 @@
 import React from 'react'
-import { Button, Container, Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Container, Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
+    const navigate = useNavigate();
     return (
         <Navbar bg="primary" expand="lg" variant='dark'>
             <Container>
-                <Navbar.Brand href="/">Notes App</Navbar.Brand>
+                <Navbar.Brand>
+                    <Link to='/'>
+                        Notes App
+                    </Link>
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className='m-auto'>
@@ -14,11 +20,18 @@ const Header = () => {
                         </Form>
                     </Nav>
                     <Nav>
-                        <Nav.Link href="#home">My Notes</Nav.Link>
+                        <Nav.Link href="/mynotes">
+                            <Link to='/mynotes'>
+                                My Notes
+                            </Link>
+                        </Nav.Link>
                         <NavDropdown title="Himanshi Khandelwal" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">My Profile</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Logout</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => {
+                                localStorage.removeItem("userInfo");
+                                navigate('/');
+                            }}>Logout</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
