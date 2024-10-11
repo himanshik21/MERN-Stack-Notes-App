@@ -15,9 +15,9 @@ app.use(express.json());
 //     res.send('Api testing fine');
 // });
 
-// app.get('/api/notes', (req, res) => {
-//     res.json(notes);
-// });
+app.get('/api/notes', (req, res) => {
+    console.log(notes);
+});
 
 app.use('/api/users',userRoutes);
 

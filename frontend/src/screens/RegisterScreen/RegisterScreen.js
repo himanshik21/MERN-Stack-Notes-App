@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import MainScreen from '../../components/MainScreen'
 import { Button, Col, Form, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import ErrorMessage from '../../components/ErrorMessage'
-import axios from 'axios'
 import Loading from '../../components/Loading'
+import { register } from '../../actions/userActions';
 
 const RegisterScreen = () => {
     const [email, setEmail] = useState("");
@@ -16,41 +17,27 @@ const RegisterScreen = () => {
     const [confirmpassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState(null);
     const [picMessage, setPicMessage] = useState(null);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const userRegister = useSelector(state => state.userRegister);
+    const { loading, error, userInfo } = userRegister;
+
+    useEffect(() => {
+        if (userInfo) {
+            navigate('/myNotes');
+        }
+    }, [navigate, userInfo]);
 
     const submitHandler = async (e) => {
         e.preventDefault();
-
         if (password !== confirmpassword) {
-            setMessage("Password do not match");
+            setMessage('Password don not match');
+        } else {
+            dispatch(register(name, email, password, pic));
         }
-        else {
-            setMessage(null);
-            try {
-                const config = {
-                    headers: {
-                        "Content-type": "application/json"
-                    },
-                };
-                setLoading(true);
 
-                const { data } = await axios.post('/api/users', {
-                    name,
-                    email,
-                    password,
-                    pic
-                },
-                    config
-                );
-                console.log(data);
-                setLoading(false);
-                localStorage.setItem('userInfo', JSON.stringify(data));
-            } catch (error) {
-                setError(error.response.data.message);
-                setLoading(false);
-            }
-        }
     };
 
     const postDetails = (pics) => {
