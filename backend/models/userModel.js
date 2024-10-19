@@ -33,7 +33,7 @@ const userSchema = mongoose.Schema(
     }
 );
 
-// encyrpt the password
+// encyrpt the password (reg)
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         next();
@@ -42,7 +42,7 @@ userSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-// decrypt the password
+// decrypt the password (login)
 userSchema.methods.matchPassword = async function(enterPassword){
     return await bcrypt.compare(enterPassword,this.password);
 }
