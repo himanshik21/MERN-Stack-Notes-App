@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const dotenv = require('dotenv')
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
@@ -11,16 +12,25 @@ connectDB();
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Api testing fine');
-});
-
-// app.get('/api/notes', (req, res) => {
-//     console.log(notes);
-// });
-
 app.use('/api/users', userRoutes);
 app.use("/api/notes", notesRoutes);
+
+// ------------------------- deployment ---------------------------------------
+const __dirname1 = path.resolve();
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname1, '/frontend/build')));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname1, 'frontend', "build", "index.html"));
+    });
+} else {
+    app.get('/', (req, res) => {
+        res.send('Api testing fine');
+    });
+}
+
+// ------------------------- deployment ---------------------------------------
+
 
 app.use(notFound);
 app.use(errorHandler);
