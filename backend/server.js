@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 //     console.log(notes);
 // });
 
-app.use('/api/users',userRoutes);
+app.use('/api/users', userRoutes);
 app.use("/api/notes", notesRoutes);
 
 app.use(notFound);

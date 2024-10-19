@@ -9,6 +9,7 @@ import LoginScreen from './screens/LoginScreen/LoginScreen';
 import CreateNote from './screens/createNote/CreateNote';
 import SingleNote from './screens/singleNote/SingleNote';
 import './App.css';
+import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
 
 
 const App = () => {
@@ -20,11 +21,13 @@ const App = () => {
       <main>
         <Routes>
           <Route path='/' element={<LandingPage />} exact />
-          <Route path='/register' element={<RegisterScreen />} exact />
-          <Route path='/login' element={<LoginScreen />} exact />
+          <Route path='/register' element={<RegisterScreen />} />
+          <Route path='/login' element={<LoginScreen />} />
+          <Route path='/profile' element={<ProfileScreen />} />
           <Route path='/mynotes' element={<MyNotes search={search} />} />
           <Route path='/createnote' element={<CreateNote />} />
           <Route path='/note/:id' element={<SingleNote />} />
+          
         </Routes>
       </main>
       <Footer />
